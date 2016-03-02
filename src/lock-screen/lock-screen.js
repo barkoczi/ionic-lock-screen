@@ -12,7 +12,8 @@ const lockScreenService = ($rootScope) => {
         textColor       : settings.textColor || '#464646',
         buttonColor     : settings.buttonColor || '#F8F8F8',
         buttonTextColor : settings.buttonTextColor || '#464646',
-        buttonPressed   : settings.buttonPressed || '#E0E0E0'
+        buttonPressed   : settings.buttonPressed || '#E0E0E0',
+        showCancelButton : settings.showCancelButton || false
       });
     },
    hide(){
@@ -46,6 +47,7 @@ const lockScreenDirective = ($timeout) => {
         scope.buttonColor     = data.buttonColor;
         scope.buttonTextColor = data.buttonTextColor;
         scope.buttonPressed   = data.buttonPressed;
+        scope.showCancelButton = data.showCancelButton;
         $timeout(() => {
           if (data.touchId && window.touchid) {
             window.touchid.authenticate(() => {
@@ -60,6 +62,14 @@ const lockScreenDirective = ($timeout) => {
           }
         }, 50);
       });
+      
+      scope.cancel = ()=>{
+        scope._showLockScreen = false;
+        scope.enteredPasscode = '';
+        scope.passcodeAttempts = 0;
+        scope.passcodeWrong = false;
+      };
+      
       scope.digit = (digit) => {
         scope.selected = +digit;
         if (scope.passcodeWrong) {
@@ -116,6 +126,12 @@ const lockScreenDirective = ($timeout) => {
             height: 100%;
             z-index: 999;
             background-color: {{backgroundColor}};
+          }
+          .ILS_cancel{
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 40px;
           }
           .ILS_lock-hidden {
             display: none;
@@ -180,6 +196,7 @@ const lockScreenDirective = ($timeout) => {
           }
       </style>
       <div class="ILS_lock" ng-class="!_showLockScreen ?  'ILS_lock-hidden' : ''">
+        <a class="button button-icon icon ion-ios-close-empty ILS_cancel" ng-show="showCancelButton" ng-click="cancel()"></a>
         <div class="ILS_label-row">
           {{passcodeLabel}}
         </div>

@@ -9,13 +9,9 @@
 
 ## Install
 
-### NPM
-
-    $ npm install ionic-lock-screen --save
-
 ### Bower
 
-    $ bower install ionic-lock-screen --save
+    $ bower install qm-ionic-lock-screen --save
 
 ## Use
 

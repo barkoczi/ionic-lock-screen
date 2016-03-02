@@ -12,9 +12,13 @@ const lockScreenService = ($rootScope) => {
         textColor       : settings.textColor || '#464646',
         buttonColor     : settings.buttonColor || '#F8F8F8',
         buttonTextColor : settings.buttonTextColor || '#464646',
-        buttonPressed   : settings.buttonPressed || '#E0E0E0',
+        buttonPressed   : settings.buttonPressed || '#E0E0E0'
       });
     },
+   hide(){
+     $rootScope.$broadcast('ionic-lock-screen:hide');
+     
+   }
   };
 };
 
@@ -25,6 +29,12 @@ const lockScreenDirective = ($timeout) => {
     link (scope) {
       let passcodeAttempts = 0;
       scope.enteredPasscode = '';
+      scope.$on('ionic-lock-screen:hide', (e)=>{
+        scope._showLockScreen = false;
+        scope.enteredPasscode = '';
+        scope.passcodeAttempts = 0;
+        scope.passcodeWrong = false;
+      });
       scope.$on('ionic-lock-screen:show', (e, data) => {
         scope._showLockScreen = true;
         scope.passcode        = data.passcode;

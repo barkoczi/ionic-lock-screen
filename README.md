@@ -33,6 +33,7 @@ Add the directive as the first element in your app container element:
   ...
 </body>
 ```
+Note: add <lock-screen> tag after body tag, not in any <ng-view>. 
 
 Load whenever the app is opened:
 
@@ -51,6 +52,36 @@ Load whenever the app is opened:
     });
 }]);
 ```
+or add use in you controller file: 
+
+```js
+function Mycontroller ($lockScreen){
+  var vm = this;
+
+  vm.askPassCode = function(){
+    $lockScreen.show({
+          code: '1234',
+          onCorrect: function () {
+              //yeah, you are in, redirect user to the requested page
+        },
+        onWrong: function (attemptNumber) {
+          // after 3 attempt you notify the user and hide the lock screen
+          if(attemptNumber == 3){
+             //hide lock screen
+             $lockScreen.hide();
+             alert("Sorry, you are not authorized to reach the requested page!");
+           }
+        }
+        });
+
+  };
+}
+Mycontroller.$inject = ['$lockScreen'];
+
+angular.module('main').controller('Mycontroller', Mycontroller);
+
+```
+
 
 You can also trigger the lock screen on the [resume](https://cordova.apache.org/docs/en/latest/cordova/events/events.resume.html) and [pause](https://cordova.apache.org/docs/en/latest/cordova/events/events.pause.html) events.
 

@@ -100,7 +100,7 @@ $lockScreen.show({
 
 ### Theming / Language
 
-See available options [here](https://github.com/AlexDisler/ionic-lock-screen/blob/master/src/lock-screen/lock-screen.js#L9-L15).
+See available options [here]https://github.com/barkoczi/qm-ionic-lock-screen/blob/master/src/lock-screen/lock-screen.js#L9-L16).
 
 # License
 
